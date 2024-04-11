@@ -4,7 +4,7 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 
 Ngx-Bootstrap -> Modal, Datepicker <br /> 
 
-Ngxs -> State managemnet library 
+Ngxs -> State management library 
 
 ![GateSensorCRUD](https://github.com/ManiSJ/GateEntryExit/assets/11914200/3b94dd07-d2e6-4cbb-a15d-7ae6016d3d9d)
 ![GateEntryExitCRUD](https://github.com/ManiSJ/GateEntryExit/assets/11914200/d7edaf32-dffd-4665-a266-2e82e04c4004)
