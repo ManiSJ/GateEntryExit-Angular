@@ -6,6 +6,8 @@ Ngx-Bootstrap -> Modal, Datepicker <br />
 
 Ngxs -> State management library 
 
+Asp.Net Core Web API (Backend) - https://github.com/ManiSJ/GateEntryExit
+
 ![GateSensorCRUD](https://github.com/ManiSJ/GateEntryExit/assets/11914200/3b94dd07-d2e6-4cbb-a15d-7ae6016d3d9d)
 ![GateEntryExitCRUD](https://github.com/ManiSJ/GateEntryExit/assets/11914200/d7edaf32-dffd-4665-a266-2e82e04c4004)
 ![SensorWithDetails](https://github.com/ManiSJ/GateEntryExit/assets/11914200/5dd9e3f1-8372-4a1f-867e-eb18cc21f660)
