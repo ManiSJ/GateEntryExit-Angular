@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { GateComponent } from '../gate/gate.component';
-import { GateEntryComponent } from '../gate-entry/gate-entry.component';
-import { GateExitComponent } from '../gate-exit/gate-exit.component';
-import { SensorComponent } from '../sensor/sensor.component';
-import { SensorListWithDetailsComponent } from '../sensor-list-with-details/sensor-list-with-details.component';
-import { GateEntryExitComponent } from '../gate-entry-exit/gate-entry-exit.component';
+import { GateComponent } from './gate/gate.component';
+import { GateEntryComponent } from './gate-entry/gate-entry.component';
+import { GateExitComponent } from './gate-exit/gate-exit.component';
+import { SensorComponent } from './sensor/sensor.component';
+import { SensorListWithDetailsComponent } from './sensor-list-with-details/sensor-list-with-details.component';
+import { GateEntryExitComponent } from './gate-entry-exit/gate-entry-exit.component';
 
 @Component({
   selector: 'app-root',
