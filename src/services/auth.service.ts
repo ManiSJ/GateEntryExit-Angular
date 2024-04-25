@@ -21,7 +21,7 @@ export class AuthService {
 
   login(data: LoginRequest): Observable<AuthResponse> {
     return this.http
-      .post<AuthResponse>(`${this.apiUrl}/account/login`, data)
+      .post<AuthResponse>(`${this.apiUrl}/api/account/login`, data)
       .pipe(
         map((response) => {
           if (response.isSuccess) {
@@ -33,31 +33,31 @@ export class AuthService {
   }
 
   register(data: RegisterRequest): Observable<AuthResponse> {
-    return this.http.post<AuthResponse>(`${this.apiUrl}/account/register`, data);
+    return this.http.post<AuthResponse>(`${this.apiUrl}/api/account/register`, data);
   }
 
   getDetail(): Observable<UserDetail> { 
-    return this.http.get<UserDetail>(`${this.apiUrl}/account/detail`);
+    return this.http.get<UserDetail>(`${this.apiUrl}/api/account/detail`);
   }
 
   forgotPassword(email: string): Observable<AuthResponse> {
-    return this.http.post<AuthResponse>(`${this.apiUrl}/account/forgot-password`, { email });
+    return this.http.post<AuthResponse>(`${this.apiUrl}/api/account/forgot-password`, { email });
   }
 
   resetPassword(data: ResetPasswordRequest): Observable<AuthResponse> {
-    return this.http.post<AuthResponse>(`${this.apiUrl}/account/reset-password`, data);
+    return this.http.post<AuthResponse>(`${this.apiUrl}/api/account/reset-password`, data);
   }
 
   changePassword(data: ChangePasswordRequest): Observable<AuthResponse> {
-    return this.http.post<AuthResponse>(`${this.apiUrl}/account/change-password`, data);
+    return this.http.post<AuthResponse>(`${this.apiUrl}/api/account/change-password`, data);
   }
 
   getAll(): Observable<UserDetail[]> {
-    return this.http.get<UserDetail[]>(`${this.apiUrl}/account`);
+    return this.http.get<UserDetail[]>(`${this.apiUrl}/api/account`);
   }
 
   refreshToken(data: {email: string; token: string; refreshToken: string;}): Observable<AuthResponse> {
-    return this.http.post<AuthResponse>(`${this.apiUrl}/account/refresh-token`, data);
+    return this.http.post<AuthResponse>(`${this.apiUrl}/api/account/refresh-token`, data);
   }
 
   getUserDetail = () => {

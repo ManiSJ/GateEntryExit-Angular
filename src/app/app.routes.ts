@@ -16,7 +16,7 @@ import { SensorListWithDetailsComponent } from './sensor-list-with-details/senso
 
 export const routes: Routes = [
     {
-        path: '',
+        path: 'home',
         component: HomeComponent,
       },
       {
