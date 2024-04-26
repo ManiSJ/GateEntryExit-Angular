@@ -10,9 +10,11 @@ import { GateEntryState } from '../state/gateEntry/gate-entry-state';
 import { GateExitState } from '../state/gateExit/gate-exit-state';
 import { SensorState } from '../state/sensor/sensor-state';
 import { tokenInterceptor } from './interceptor/token-interceptor.interceptor';
+import { MessageService } from 'primeng/api';
 
 export const appConfig: ApplicationConfig = {
   providers: [
+    MessageService,
     provideRouter(routes),
     provideHttpClient(),
     provideHttpClient(withInterceptors([tokenInterceptor])),

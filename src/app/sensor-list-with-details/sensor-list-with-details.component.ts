@@ -36,8 +36,7 @@ import { SensorState } from '../../state/sensor/sensor-state';
     DatePickerComponent],
   templateUrl: './sensor-list-with-details.component.html',
   styleUrl: './sensor-list-with-details.component.css',
-  providers:  [SensorService,
-    BsModalService]
+  providers:  [BsModalService]
 })
 export class SensorListWithDetailsComponent implements OnInit, OnDestroy {
 

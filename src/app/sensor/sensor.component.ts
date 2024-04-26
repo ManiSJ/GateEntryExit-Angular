@@ -1,5 +1,4 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { SensorService } from '../../services/sensor.service';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { GateDetailsDto } from '../../models/gate/gate-details-dto';
 import { SensorDetailsDto } from '../../models/sensor/sensor-details-dto';
@@ -16,6 +15,7 @@ import { CreateSensor, DeleteSensor, EditSensor, GetAllSensor } from '../../stat
 import { Select, Store } from '@ngxs/store';
 import { SensorState } from '../../state/sensor/sensor-state';
 import { Observable, Subject, takeUntil } from 'rxjs';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-sensor',
@@ -28,8 +28,7 @@ import { Observable, Subject, takeUntil } from 'rxjs';
     PaginationComponent],
   templateUrl: './sensor.component.html',
   styleUrl: './sensor.component.css',
-  providers: [SensorService,
-    BsModalService]
+  providers: [BsModalService]
 })
 export class SensorComponent implements OnInit, OnDestroy{
 
@@ -45,8 +44,8 @@ export class SensorComponent implements OnInit, OnDestroy{
   lastUpdatedSensor : SensorDetailsDto = new SensorDetailsDto();
   totalCount : number = 0;
 
-  constructor(private sensorService : SensorService,
-    private modalService: BsModalService,
+  constructor(private modalService: BsModalService,
+    private messageService: MessageService,
     private store: Store,
     private formBuilder : FormBuilder) {  
       this.sensors$.pipe(takeUntil(this.unSubscribeGetAllSensor$)).subscribe(allSensor => this.sensorDetails = allSensor);
@@ -108,6 +107,7 @@ export class SensorComponent implements OnInit, OnDestroy{
     this.store.dispatch(new CreateSensor(input)).subscribe(() => {
       this.getSensors(this.getAllDto);
       this.sensorFormGroup.reset();
+      this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Created successfully' });
     });
   }
 
@@ -119,6 +119,7 @@ export class SensorComponent implements OnInit, OnDestroy{
       this.getSensors(this.getAllDto);
       this.sensorFormGroup.reset();
       this.selectedSensorId = null;
+      this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Updated successfully' });
     });
   }
 

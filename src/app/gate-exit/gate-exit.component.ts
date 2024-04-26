@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
 import { GateExitService } from '../../services/gate-exit.service';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { GateDetailsDto } from '../../models/gate/gate-details-dto';
@@ -14,6 +14,7 @@ import { GateExitState } from '../../state/gateExit/gate-exit-state';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject, takeUntil } from 'rxjs';
 import { DeleteGateExit, GetAllGateExit } from '../../state/gateExit/gate-exit-action';
+import { GateEntryExitComponent } from '../gate-entry-exit/gate-entry-exit.component';
 
 @Component({
   selector: 'app-gate-exit',
@@ -23,15 +24,15 @@ import { DeleteGateExit, GetAllGateExit } from '../../state/gateExit/gate-exit-a
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    PaginationComponent,
-    HttpClientModule],
+    PaginationComponent,    
+    HttpClientModule,
+    GateEntryExitComponent],
   templateUrl: './gate-exit.component.html',
-  styleUrl: './gate-exit.component.css',
-  providers: [GateExitService]
+  styleUrl: './gate-exit.component.css'
 })
 export class GateExitComponent implements OnInit, OnDestroy{
 
-  @Output() gateExitEdit : EventEmitter<any> = new EventEmitter<any>();
+  @ViewChild(GateEntryExitComponent) gateEntryExitComponentForExit!: GateEntryExitComponent;
 
   selectedGateExitId : string | null = null;
   gateExits : GateExitDto[] = [];
@@ -52,8 +53,7 @@ export class GateExitComponent implements OnInit, OnDestroy{
   private unSubscribeGetLastupdatedGateExit$ = new Subject<void>();
   private unSubscribeGetTotalCount$ = new Subject<void>();
 
-  constructor(private gateExitService : GateExitService,
-    private store : Store,
+  constructor(private store : Store,
     private formBuilder : FormBuilder){
       this.gateExits$.pipe(takeUntil(this.unSubscribeGetAllGateExit$)).subscribe(allGateExit => this.gateExits = allGateExit);
       this.lastCreatedGateEntry$.pipe(takeUntil(this.unSubscribeGetLastCreatedGateExit$))
@@ -80,7 +80,7 @@ export class GateExitComponent implements OnInit, OnDestroy{
   }
 
   editGateExit(gateExit : GateExitDto){    
-    this.gateExitEdit.emit({
+   this.gateEntryExitComponentForExit.editGateExit({
       id : gateExit.id,
       gateId : gateExit.gateId,
       gateName : gateExit.gateName,

@@ -30,6 +30,7 @@ export const tokenInterceptor: HttpInterceptorFn = (req, next) => {
             next: (response) => {
               if (response.isSuccess) {
                 localStorage.setItem('user', JSON.stringify(response));
+                authService.updateAuthenticationStatus(true); 
                 const cloned = req.clone({
                   setHeaders: {
                     Authorization: `Bearer ${response.token}`,

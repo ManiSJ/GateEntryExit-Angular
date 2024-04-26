@@ -60,21 +60,26 @@ export const routes: Routes = [
       {
         path: 'gates',
         component: GateComponent,
+        canActivate: [authGuard],
       },
       {
         path: 'gate-entries',
         component: GateEntryComponent,
+        canActivate: [authGuard],
       },
       {
         path: 'gate-exits',
         component: GateExitComponent,
+        canActivate: [authGuard],
       },
       {
         path: 'sensors',
         component: SensorComponent,
+        canActivate: [authGuard],
       },
       {
         path: 'sensor-with-details',
         component: SensorListWithDetailsComponent,
+        canActivate: [authGuard],
       },
 ];

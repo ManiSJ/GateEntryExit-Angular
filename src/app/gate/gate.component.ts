@@ -14,6 +14,8 @@ import { GateState } from '../../state/gate/gate-state';
 import { Observable, Subject, of, takeUntil } from 'rxjs';
 import { GateDto } from '../../models/gate/gate-dto';
 import { GateListViewComponent } from '../gate-list-view/gate-list-view.component';
+import { MessageService } from 'primeng/api';
+import { ToastModule } from 'primeng/toast';
 
 @Component({
   selector: 'app-gate',
@@ -21,10 +23,11 @@ import { GateListViewComponent } from '../gate-list-view/gate-list-view.componen
   imports: [CommonModule, 
     ReactiveFormsModule, 
     GateListViewComponent,
-    HttpClientModule],
+    HttpClientModule,
+    ToastModule],
   templateUrl: './gate.component.html',
   styleUrl: './gate.component.css',
-  providers:  [GateService, PaginationConfig]
+  providers:  [PaginationConfig]
 })
 export class GateComponent implements OnInit, OnDestroy {
   
@@ -48,6 +51,7 @@ export class GateComponent implements OnInit, OnDestroy {
   private unSubscribeGetTotalCount$ = new Subject<void>();
 
   constructor(private store : Store,
+    private messageService: MessageService,
     private formBuilder : FormBuilder){
       this.gates$.pipe(takeUntil(this.unSubscribeGetAllGate$)).subscribe(allGates => this.gates = allGates);
       this.lastCreatedGate$.pipe(takeUntil(this.unSubscribeGetLastCreatedGate$))
@@ -95,6 +99,7 @@ export class GateComponent implements OnInit, OnDestroy {
     this.store.dispatch(new CreateGate(input)).subscribe(() => {
       this.getGates(this.getAllDto);
       this.gateFormGroup.reset();      
+      this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Created successfully' });
     });
   }
 
@@ -106,6 +111,7 @@ export class GateComponent implements OnInit, OnDestroy {
       this.getGates(this.getAllDto);
       this.gateFormGroup.reset();
       this.selectedGateId = null;
+      this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Updated successfully' });
     });
   }
 
@@ -119,6 +125,7 @@ export class GateComponent implements OnInit, OnDestroy {
   deleteGate(id : any){
     this.store.dispatch(new DeleteGate(id)).subscribe(() => {
       this.getGates(this.getAllDto);
+      this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Updated successfully' });
     });
   }
 

@@ -18,7 +18,7 @@
       <tr *ngFor="let gate of gates">
         <td *ngIf="isActionEnabled">
             <button class="btn btn-primary" (click)="editGate(gate)"><span><i class="me-2 fas fa-edit"></i></span>Edit</button>
-            <button class="ms-2 btn btn-danger" disabled (click)="deleteGate(gate.id)"><span><i class="me-2 fa-solid fa-trash"></i></span>Delete</button>
+            <button class="ms-2 btn btn-danger" (click)="deleteGate(gate.id)"><span><i class="me-2 fa-solid fa-trash"></i></span>Delete</button>
         </td>
         <td *ngIf="isSelectionEnabled">
             <input *ngIf="isRadioSelection" 

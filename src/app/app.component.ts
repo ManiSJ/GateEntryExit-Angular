@@ -27,8 +27,7 @@ import { CommonModule } from '@angular/common';
     CommonModule
   ],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.css',
-  providers: [AuthService]
+  styleUrl: './app.component.css'
 })
 export class AppComponent implements OnInit{
     title = 'GateEntryExit';
@@ -37,11 +36,13 @@ export class AppComponent implements OnInit{
     constructor(private authService : AuthService, private router: Router){}
   
     ngOnInit(): void {
+        
+        // this needed mainly for login, logout so navigation not shown if not signed in
+        this.authService.isAuthenticatedSubject.subscribe((value) => {          
+          this.isLoggedIn = value;
+        });
+        
         this.isLoggedIn = this.authService.isAuthenticated();
-        console.log('appComponent-ngOnint-isLoggedIn', this.isLoggedIn);
-        if(this.isLoggedIn){
-          this.router.navigate(['/dashboard']);
-        }
     }
   
     logout() {

@@ -37,10 +37,7 @@ import { CreateGateEntry, EditGateEntry, GetAllGateEntry } from '../../state/gat
     DatePickerComponent],
   templateUrl: './gate-entry-exit.component.html',
   styleUrl: './gate-entry-exit.component.css',
-  providers:  [GateService, 
-    GateEntryService, 
-    GateExitService,
-    BsModalService]
+  providers:  [BsModalService]
 })
 export class GateEntryExitComponent implements OnInit, OnDestroy{
 
@@ -54,9 +51,7 @@ export class GateEntryExitComponent implements OnInit, OnDestroy{
 
   selectedDate : string = '';
   
-  constructor(private gateEntryService : GateEntryService,
-    private gateExitService : GateExitService,
-    private modalService: BsModalService,
+  constructor( private modalService: BsModalService,
     private store : Store,
     private formBuilder : FormBuilder){
     }  

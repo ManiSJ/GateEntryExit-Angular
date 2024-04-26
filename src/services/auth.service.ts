@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable, map } from 'rxjs';
+import { BehaviorSubject, Observable, map } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { jwtDecode } from 'jwt-decode';
 import { environment } from '../environments/environments';
@@ -17,6 +17,9 @@ export class AuthService {
   apiUrl: string = environment.apiUrl;
   private userKey = 'user';
 
+  isAuthenticatedSubject = new BehaviorSubject<boolean>(false);
+  isLoggedIn$ = this.isAuthenticatedSubject.asObservable();
+
   constructor(private http: HttpClient) {}
 
   login(data: LoginRequest): Observable<AuthResponse> {
@@ -24,7 +27,7 @@ export class AuthService {
       .post<AuthResponse>(`${this.apiUrl}/api/account/login`, data)
       .pipe(
         map((response) => {
-          if (response.isSuccess) {
+          if (response.isSuccess) {           
             localStorage.setItem(this.userKey, JSON.stringify(response));
           }
           return response;
@@ -76,10 +79,13 @@ export class AuthService {
 
   isAuthenticated = (): boolean => {
     const token = this.getToken();
-    console.log('Token', token);
     if (!token) return false;
     return true;
   };
+
+  updateAuthenticationStatus(value : boolean){
+    this.isAuthenticatedSubject.next(value);
+  }
 
   private isTokenExpired() {
     const token = this.getToken();
@@ -100,6 +106,7 @@ export class AuthService {
 
   logout = (): void => {
     localStorage.removeItem(this.userKey);
+    this.updateAuthenticationStatus(false);
   };
 
   getToken = (): string | null => {

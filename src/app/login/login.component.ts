@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-login',
@@ -10,8 +11,7 @@ import { Router } from '@angular/router';
     ReactiveFormsModule
    ],
   templateUrl: './login.component.html',
-  styleUrl: './login.component.css',
-  providers:  [AuthService]
+  styleUrl: './login.component.css' 
 })
 export class LoginComponent implements OnInit{
 
@@ -19,7 +19,8 @@ export class LoginComponent implements OnInit{
 
   constructor(private authService : AuthService,
     private formBuilder : FormBuilder,
-    private router: Router) {
+    private router: Router,
+    private messageService: MessageService) {
     
   }
 
@@ -37,8 +38,10 @@ export class LoginComponent implements OnInit{
   login() {
     this.authService.login(this.loginForm.value).subscribe({
       next: (response) => {
-        if (response.isSuccess) {         
+        if (response.isSuccess) {                  
+          this.authService.updateAuthenticationStatus(true); 
           this.router.navigate(['/dashboard']);
+          this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Log in success' });
         }
       },
       error: (error) => {       

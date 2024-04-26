@@ -11,8 +11,7 @@ import { CommonModule } from '@angular/common';
     RouterLink, 
     RouterLinkActive],
   templateUrl: './home.component.html',
-  styleUrl: './home.component.css',  
-  providers: [AuthService]
+  styleUrl: './home.component.css'
 })
 export class HomeComponent implements OnInit{
   isLoggedIn : boolean = false;

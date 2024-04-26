@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { ValidationError } from '../../models/account/validation-error';
 import { HttpErrorResponse } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-register',
@@ -13,8 +14,7 @@ import { CommonModule } from '@angular/common';
     CommonModule
   ],
   templateUrl: './register.component.html',
-  styleUrl: './register.component.css',
-  providers:  [AuthService]
+  styleUrl: './register.component.css'
 })
 export class RegisterComponent  implements OnInit {
 
@@ -25,6 +25,7 @@ export class RegisterComponent  implements OnInit {
   
   constructor(private authService : AuthService,
     private formBuilder : FormBuilder,
+    private messageService: MessageService,
     private router: Router){}
 
   ngOnInit(): void {
@@ -46,6 +47,7 @@ export class RegisterComponent  implements OnInit {
       next: (response) => {
         if (response.isSuccess) {         
           this.router.navigate(['/login']);
+          this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Registered successfully' });
         }
       },
       error: (err: HttpErrorResponse) => {

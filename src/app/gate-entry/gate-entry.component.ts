@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
 import { GateEntryService } from '../../services/gate-entry.service';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -13,6 +13,7 @@ import { GateEntryState } from '../../state/gateEntry/gate-entry-state';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject, takeUntil } from 'rxjs';
 import { DeleteGateEntry, GetAllGateEntry } from '../../state/gateEntry/gate-entry-action';
+import { GateEntryExitComponent } from '../gate-entry-exit/gate-entry-exit.component';
 
 @Component({
   selector: 'app-gate-entry',
@@ -23,16 +24,16 @@ import { DeleteGateEntry, GetAllGateEntry } from '../../state/gateEntry/gate-ent
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    PaginationComponent
+    PaginationComponent,
+    GateEntryExitComponent
   ],
   templateUrl: './gate-entry.component.html',
-  styleUrl: './gate-entry.component.css',
-  providers: [GateEntryService]
+  styleUrl: './gate-entry.component.css'
 })
 export class GateEntryComponent implements OnInit, OnDestroy {
-
-  @Output() gateEntryEdit : EventEmitter<any> = new EventEmitter<any>();
   
+  @ViewChild(GateEntryExitComponent) gateEntryExitComponent!: GateEntryExitComponent;
+
   selectedGateEntryId : string | null = null;
   gateEntries : GateEntryDto[] = [];
   gateEntryFormGroup: FormGroup = this.formBuilder.group({});
@@ -79,7 +80,7 @@ export class GateEntryComponent implements OnInit, OnDestroy {
   }
 
   editGateEntry(gateEntry : GateEntryDto){    
-    this.gateEntryEdit.emit({
+    this.gateEntryExitComponent.editGateEntry({
       id : gateEntry.id,
       gateId : gateEntry.gateId,
       gateName : gateEntry.gateName,
