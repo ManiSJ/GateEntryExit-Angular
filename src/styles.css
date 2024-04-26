@@ -1,1 +1,37 @@
 /* You can add global styles to this file, and also import other style files */
+body{
+    background-color: rgba(0,0,0,0.05) !important;
+}
+
+.nonLogin_Center_Content{
+    margin:100px;   
+    background-color: white;
+    border-radius:25px;
+    padding-top:50px;
+    padding-bottom:50px;
+    padding-left:150px;
+    padding-right:150px;
+}
+
+.sidebar .btn {
+    padding: .25rem .5rem;
+    font-weight: 600;
+    color: rgba(0,0,0,0.65);
+    background-color: transparent;
+    border: 0;
+  }
+
+.sidebar .btn:hover, .sidebar .btn:focus {
+    color: rgba(0,0,0,0.85);
+    background-color: rgba(121,82,179,0.1);
+}
+
+.card-header, nav{
+    background-color: #aa23e8 !important;
+    color: white;
+}
+
+nav a{
+    color: white !important;
+    font-weight: bold;
+}

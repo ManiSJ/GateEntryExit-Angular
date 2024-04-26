@@ -1,15 +1,18 @@
-<div class="container">
-    <div class="row">
-        <div class="col-md-6">
+<div class="container vh-100 d-flex justify-content-center align-items-center">
+    <div class="row nonLogin_Center_Content">
+        <div class="col-md-12 mb-4">
+            <h2>Login</h2>
+        </div>
+        <div class="col-md-12">
             <form [formGroup]="loginForm">
                 <div class="mb-3">                    
-                    <input type="email" placeholder="Enter login email" class="form-control" formControlName="email"/>
+                    <input type="email" placeholder="Email" class="form-control" formControlName="email"/>
                 </div>        
                 <div class="mb-3">
-                    <input type="password" placeholder="Enter login password" class="form-control" formControlName="password" />
+                    <input type="password" placeholder="Password" class="form-control" formControlName="password" />
                 </div>                
-                <div class="col-md-1">
-                    <button class="btn btn-primary d-flex justify-content-end" type="submit" (click)="login()" [disabled]="loginForm.invalid">
+                <div class="col-md-1 float-end">
+                    <button class="btn btn-primary" type="submit" (click)="login()" [disabled]="loginForm.invalid">
                       Submit
                       </button>    
                   </div> 

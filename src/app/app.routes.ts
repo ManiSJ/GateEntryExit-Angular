@@ -13,11 +13,20 @@ import { GateEntryComponent } from './gate-entry/gate-entry.component';
 import { GateExitComponent } from './gate-exit/gate-exit.component';
 import { SensorComponent } from './sensor/sensor.component';
 import { SensorListWithDetailsComponent } from './sensor-list-with-details/sensor-list-with-details.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
 
 export const routes: Routes = [
-    {
+      {
+        path: '',
+        component: HomeComponent,
+      },
+      {
         path: 'home',
         component: HomeComponent,
+      },
+      {
+        path: 'dashboard',
+        component: DashboardComponent,
       },
       {
         path: 'login',
