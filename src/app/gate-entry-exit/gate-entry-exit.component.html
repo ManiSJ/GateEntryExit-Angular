@@ -28,7 +28,7 @@
                               <div class="form-check form-check-inline" *ngIf="isGateExitOperation"> 
                                   <input type="radio" 
                                       class="form-check-input"
-                                      [value]="'exit'"                                
+                                      [value]="'exit'"                            
                                       name="gateOperation" 
                                       formControlName="gateOperation">
                                   <label class="form-check-label">Exit</label>
@@ -50,15 +50,6 @@
                         </div> 
                   </div>
               </form>
-      
-              <!-- <div class="row mt-3">
-                <div class="col-6">
-                  <app-gate-entry (gateEntryEdit)="editGateEntry($event)"></app-gate-entry>
-                </div>
-                <div class="col-6">
-                  <app-gate-exit (gateExitEdit)="editGateExit($event)"></app-gate-exit>
-                </div>
-              </div> -->
               
           </div>
         </div>

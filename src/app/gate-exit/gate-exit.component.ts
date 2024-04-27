@@ -1,7 +1,5 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
-import { GateExitService } from '../../services/gate-exit.service';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
-import { GateDetailsDto } from '../../models/gate/gate-details-dto';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TimepickerModule } from 'ngx-bootstrap/timepicker';
 import { CommonModule } from '@angular/common';
@@ -15,6 +13,7 @@ import { Select, Store } from '@ngxs/store';
 import { Observable, Subject, takeUntil } from 'rxjs';
 import { DeleteGateExit, GetAllGateExit } from '../../state/gateExit/gate-exit-action';
 import { GateEntryExitComponent } from '../gate-entry-exit/gate-entry-exit.component';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-gate-exit',
@@ -32,7 +31,7 @@ import { GateEntryExitComponent } from '../gate-entry-exit/gate-entry-exit.compo
 })
 export class GateExitComponent implements OnInit, OnDestroy{
 
-  @ViewChild(GateEntryExitComponent) gateEntryExitComponentForExit!: GateEntryExitComponent;
+  @ViewChild(GateEntryExitComponent) entryExitComponent!: GateEntryExitComponent;
 
   selectedGateExitId : string | null = null;
   gateExits : GateExitDto[] = [];
@@ -54,6 +53,7 @@ export class GateExitComponent implements OnInit, OnDestroy{
   private unSubscribeGetTotalCount$ = new Subject<void>();
 
   constructor(private store : Store,
+    private messageService: MessageService,
     private formBuilder : FormBuilder){
       this.gateExits$.pipe(takeUntil(this.unSubscribeGetAllGateExit$)).subscribe(allGateExit => this.gateExits = allGateExit);
       this.lastCreatedGateEntry$.pipe(takeUntil(this.unSubscribeGetLastCreatedGateExit$))
@@ -80,7 +80,7 @@ export class GateExitComponent implements OnInit, OnDestroy{
   }
 
   editGateExit(gateExit : GateExitDto){    
-   this.gateEntryExitComponentForExit.editGateExit({
+    this.entryExitComponent.editGateExit({
       id : gateExit.id,
       gateId : gateExit.gateId,
       gateName : gateExit.gateName,
@@ -92,6 +92,7 @@ export class GateExitComponent implements OnInit, OnDestroy{
   deleteGateExit(id : string){
     this.store.dispatch(new DeleteGateExit(id)).subscribe(() => {
       this.getGateExits(this.getAllDto);
+      this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Deleted successfully' });
     });
   }
 

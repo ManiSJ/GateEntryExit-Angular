@@ -20,7 +20,6 @@ export class HomeComponent implements OnInit{
 
   ngOnInit(): void {
       this.isLoggedIn = this.authService.isAuthenticated();
-      console.log('isLoggedIn', this.isLoggedIn);
       if(this.isLoggedIn){
         this.router.navigate(['/dashboard']);
       }

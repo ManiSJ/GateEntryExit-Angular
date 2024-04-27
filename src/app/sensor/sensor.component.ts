@@ -135,6 +135,7 @@ export class SensorComponent implements OnInit, OnDestroy{
   deleteSensor(id :string){
     this.store.dispatch(new DeleteSensor(id)).subscribe(() => {
       this.getSensors(this.getAllDto);
+      this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Deleted successfully' });
     });
   }
 

@@ -9,12 +9,16 @@ import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { AuthService } from '../services/auth.service';
 import { CommonModule } from '@angular/common';
+import { GateExitComponent } from './gate-exit/gate-exit.component';
+import { GateEntryComponent } from './gate-entry/gate-entry.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
   imports: [RouterOutlet, 
     GateComponent, 
+    GateEntryComponent, 
+    GateExitComponent, 
     GateEntryExitComponent,
     SensorComponent,
     SensorListWithDetailsComponent,
@@ -32,7 +36,8 @@ import { CommonModule } from '@angular/common';
 export class AppComponent implements OnInit{
     title = 'GateEntryExit';
     isLoggedIn : boolean = false;
-  
+    userFirstChar :string = "";
+    showMenuItems : boolean = false;
     constructor(private authService : AuthService, private router: Router){}
   
     ngOnInit(): void {
@@ -40,13 +45,33 @@ export class AppComponent implements OnInit{
         // this needed mainly for login, logout so navigation not shown if not signed in
         this.authService.isAuthenticatedSubject.subscribe((value) => {          
           this.isLoggedIn = value;
+
+          if(value == true){
+            this.getUserFirstCharacter();
+          }
         });
         
         this.isLoggedIn = this.authService.isAuthenticated();
+
+        if(this.isLoggedIn == true){
+          this.getUserFirstCharacter();
+        }
+    }
+
+    getUserFirstCharacter(){
+      var userDetail = this.authService.getUserDetail();
+      if(userDetail){
+        this.userFirstChar = userDetail.fullName.charAt(0);
+      }
     }
   
     logout() {
+      this.showMenuItems = !this.showMenuItems;
       this.authService.logout();
       this.router.navigate(['/login']);
     };
+
+    showMenu(){
+      this.showMenuItems = !this.showMenuItems;
+    }
   }

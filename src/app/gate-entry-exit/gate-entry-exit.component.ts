@@ -2,18 +2,14 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { GateEntryService } from '../../services/gate-entry.service';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { GateService } from '../../services/gate.service';
 import { GateDetailsDto } from '../../models/gate/gate-details-dto';
 import { HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { TimepickerModule } from 'ngx-bootstrap/timepicker';
 import { CreateGateEntryDto } from '../../models/gateEntry/create-gate-entry-dto';
 import { UpdateGateEntryDto } from '../../models/gateEntry/update-gate-entry-dto';
-import { GateExitService } from '../../services/gate-exit.service';
 import { UpdateGateExitDto } from '../../models/gateExit/update-gate-exit-dto';
 import { CreateGateExitDto } from '../../models/gateExit/create-gate-exit-dto';
-import { GateEntryComponent } from '../gate-entry/gate-entry.component';
-import { GateExitComponent } from '../gate-exit/gate-exit.component';
 import { DatePickerComponent } from '../../shared/date-picker/date-picker.component';
 import { GetAllDto } from '../../models/shared/get-all-dto';
 import { GateModalComponent } from '../gate-modal/gate-modal.component';
@@ -21,6 +17,8 @@ import { BsModalRef, BsModalService, ModalOptions } from 'ngx-bootstrap/modal';
 import { Store } from '@ngxs/store';
 import { CreateGateExit, EditGateExit, GetAllGateExit } from '../../state/gateExit/gate-exit-action';
 import { CreateGateEntry, EditGateEntry, GetAllGateEntry } from '../../state/gateEntry/gate-entry-action';
+import { NavigationEnd, Router } from '@angular/router';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-gate-entry-exit',
@@ -28,8 +26,6 @@ import { CreateGateEntry, EditGateEntry, GetAllGateEntry } from '../../state/gat
   imports: [BsDatepickerModule,
     TimepickerModule,
     CommonModule,
-    GateEntryComponent,
-    GateExitComponent,
     GateModalComponent,
     FormsModule,
     ReactiveFormsModule,
@@ -52,12 +48,32 @@ export class GateEntryExitComponent implements OnInit, OnDestroy{
   selectedDate : string = '';
   
   constructor( private modalService: BsModalService,
+    private messageService: MessageService,
     private store : Store,
-    private formBuilder : FormBuilder){
+    private formBuilder : FormBuilder,
+    private router: Router){
+      this.router.events.subscribe(event => {
+        if (event instanceof NavigationEnd) {
+          if(event.url.includes("gate-entries")){
+            this.isGateEntryOperation = true;
+            this.isGateExitOperation = false;
+          }
+          else if(event.url.includes("gate-exits")){
+            this.isGateEntryOperation = false;
+            this.isGateExitOperation = true;
+          }
+        }
+      });
     }  
 
   ngOnInit() : void{
     this.buildGateEntryExitForm();
+    this.updateGateOperationBasedOnRoute();
+  }
+
+  updateGateOperationBasedOnRoute(){
+    if(this.isGateEntryOperation) this.gateEntryExitFormGroup.patchValue({  gateOperation : 'entry' });
+    if(this.isGateExitOperation) this.gateEntryExitFormGroup.patchValue({  gateOperation : 'exit' });
   }
 
   ngOnDestroy(): void {
@@ -102,6 +118,7 @@ export class GateEntryExitComponent implements OnInit, OnDestroy{
       this.store.dispatch(new GetAllGateEntry(new GetAllDto({skipCount: 0, maxResultCount : 5, sorting : ''}))).subscribe();
       this.gateEntryExitFormGroup.reset();   
       this.selectedDate = ''; 
+      this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Created successfully' });
     });
   }
 
@@ -115,6 +132,7 @@ export class GateEntryExitComponent implements OnInit, OnDestroy{
       this.gateEntryExitFormGroup.reset();   
       this.selectedGateEntryExitId = null;
       this.selectedDate = '';
+      this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Updated successfully' });
     });
   }
 
@@ -127,6 +145,7 @@ export class GateEntryExitComponent implements OnInit, OnDestroy{
       this.store.dispatch(new GetAllGateExit(new GetAllDto({skipCount: 0, maxResultCount : 5, sorting : ''}))).subscribe();
       this.gateEntryExitFormGroup.reset();   
       this.selectedDate = '';
+      this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Created successfully' });
     });
   }
 
@@ -140,6 +159,7 @@ export class GateEntryExitComponent implements OnInit, OnDestroy{
       this.gateEntryExitFormGroup.reset();   
       this.selectedGateEntryExitId = null;
       this.selectedDate = '';
+      this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Updated successfully' });
     });
   }
 

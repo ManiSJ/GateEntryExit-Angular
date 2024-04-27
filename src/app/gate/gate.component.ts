@@ -125,7 +125,7 @@ export class GateComponent implements OnInit, OnDestroy {
   deleteGate(id : any){
     this.store.dispatch(new DeleteGate(id)).subscribe(() => {
       this.getGates(this.getAllDto);
-      this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Updated successfully' });
+      this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Deleted successfully' });
     });
   }
 

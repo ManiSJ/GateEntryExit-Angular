@@ -14,6 +14,7 @@ import { Select, Store } from '@ngxs/store';
 import { Observable, Subject, takeUntil } from 'rxjs';
 import { DeleteGateEntry, GetAllGateEntry } from '../../state/gateEntry/gate-entry-action';
 import { GateEntryExitComponent } from '../gate-entry-exit/gate-entry-exit.component';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-gate-entry',
@@ -54,6 +55,7 @@ export class GateEntryComponent implements OnInit, OnDestroy {
   private unSubscribeGetTotalCount$ = new Subject<void>();
 
   constructor(private store: Store,
+    private messageService: MessageService,
     private formBuilder : FormBuilder){
       this.gateEntries$.pipe(takeUntil(this.unSubscribeGetAllGateEntry$)).subscribe(allGateEntry => this.gateEntries = allGateEntry);
       this.lastCreatedGateEntry$.pipe(takeUntil(this.unSubscribeGetLastCreatedGateEntry$))
@@ -92,6 +94,7 @@ export class GateEntryComponent implements OnInit, OnDestroy {
   deleteGateEntry(id : string){
     this.store.dispatch(new DeleteGateEntry(id)).subscribe(() => {
       this.getGateEntries(this.getAllDto);
+      this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Deleted successfully' });
     });
   }
 

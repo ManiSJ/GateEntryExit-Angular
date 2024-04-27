@@ -7,6 +7,38 @@ body{
     background-color: rgba(0,0,0,0.05) !important;
 }
 
+.profile_logo{
+    height: 50px;
+    width: 50px;
+    background-color: #bbb;
+    border-radius: 50%;
+    display: inline-block;
+    text-align:center;
+    font-size:2em;
+    line-height:1.5em;
+    vertical-align:middle;
+    margin-right:1em;
+    color:white;
+}
+
+.profile_logo_menu{
+    background-color: white;    
+    position: absolute;
+    right: 5px;
+}
+
+.profile_logo_menu ul{
+    list-style-type: none;   
+    padding:5px;
+}
+
+.profile_logo_menu ul li a{
+    font-weight: 600;
+    color: rgba(0, 0, 0, 0.65); 
+    padding:5px;
+    cursor: pointer;
+}
+
 .nonLogin_Center_Content{
     margin:100px;   
     background-color: white;
