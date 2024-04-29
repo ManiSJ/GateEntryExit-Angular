@@ -9,6 +9,8 @@ import { RegisterRequest } from '../models/account/register-request';
 import { UserDetail } from '../models/account/user-detail';
 import { ChangePasswordRequest } from '../models/account/change-password-request';
 import { ResetPasswordRequest } from '../models/account/reset-password-request';
+import { TfaSetupDto } from '../models/account/tfa-setup-dto';
+import { TfaDto } from '../models/account/tfa-dto';
 
 @Injectable({
   providedIn: 'root',
@@ -63,6 +65,35 @@ export class AuthService {
     return this.http.post<AuthResponse>(`${this.apiUrl}/api/account/refresh-token`, data);
   }
 
+  public getTfaSetup = (email: string) => {
+    return this.http.get<TfaSetupDto> (`${this.apiUrl}/api/account/tfa-setup?email=${email}`);
+  }
+  
+  public postTfaSetup = (data: TfaSetupDto) => {
+    return this.http.post<TfaSetupDto> (`${this.apiUrl}/api/account/tfa-setup`, data);
+  }
+  
+  public disableTfa = (email: string) => {
+    return this.http.delete<TfaSetupDto> (`${this.apiUrl}/api/account/tfa-setup?email=${email}`);
+  }
+
+  public loginTfa = (data: TfaDto) => {
+    return this.http.post<AuthResponse>(`${this.apiUrl}/api/account/login-tfa`, data)
+        .pipe(
+          map((response) => {
+            if (response.isSuccess) {      
+              const user = localStorage.getItem(this.userKey);
+              if (user != null && user){
+                const userDetail: AuthResponse = JSON.parse(user);     
+                userDetail.isTfaSuccess = true;
+                localStorage.setItem(this.userKey, JSON.stringify(userDetail));
+              }              
+            }
+            return response;
+          })
+        );
+  }
+
   getUserDetail = () => {
     const token = this.getToken();
     if (!token) return null;
@@ -78,9 +109,28 @@ export class AuthService {
   };
 
   isAuthenticated = (): boolean => {
-    const token = this.getToken();
-    if (!token) return false;
-    return true;
+
+    let isAuthenticated = false;
+
+    const user = localStorage.getItem(this.userKey);
+    if (!user) return isAuthenticated;
+
+    const userDetail: AuthResponse = JSON.parse(user);
+
+    if(!userDetail.isTfaEnabled)
+    {
+      if(userDetail.token)
+      {
+        isAuthenticated = true;
+      }
+    }
+    else{
+      if(userDetail.isTfaSuccess){
+        isAuthenticated = true;
+      }
+    }
+
+    return isAuthenticated;
   };
 
   updateAuthenticationStatus(value : boolean){

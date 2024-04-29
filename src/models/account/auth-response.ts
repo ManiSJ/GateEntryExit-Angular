@@ -3,4 +3,6 @@ export interface AuthResponse {
     isSuccess: true;
     message: string;
     refreshToken: string;
+    isTfaEnabled : boolean;
+    isTfaSuccess : boolean;
   }
