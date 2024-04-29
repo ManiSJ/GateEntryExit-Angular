@@ -2,9 +2,9 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
-import { AuthResponse } from '../../models/account/auth-response';
+import { AuthResponseDto } from '../../models/account/auth-response-dto';
 import { TfaDto } from '../../models/account/tfa-dto';
 import { MessageService } from 'primeng/api';
 
@@ -51,7 +51,7 @@ export class LoginTwoStepVerificationComponent {
     }
     this.authService.loginTfa(twoFactorDto)
     .subscribe({
-      next: (response: AuthResponse) => {
+      next: (response: AuthResponseDto) => {
         if (response.isSuccess) {
           this.authService.updateAuthenticationStatus(true); 
           this.router.navigate(['/dashboard']);

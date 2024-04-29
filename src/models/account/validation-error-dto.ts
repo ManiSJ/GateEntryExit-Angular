@@ -1,4 +1,4 @@
-export interface ValidationError {
+export interface ValidationErrorDto {
     code: string;
     description: string;
   }
