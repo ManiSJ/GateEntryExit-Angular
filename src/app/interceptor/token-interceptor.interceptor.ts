@@ -38,6 +38,10 @@ export const tokenInterceptor: HttpInterceptorFn = (req, next) => {
                 });
                 location.reload();
               }
+              else{
+                authService.logout();
+                router.navigate(['/login']);
+              }
             },
             error: () => {
               authService.logout();
