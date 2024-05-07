@@ -3,12 +3,15 @@ import { BehaviorSubject, Observable, map } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { jwtDecode } from 'jwt-decode';
 import { environment } from '../environments/environments';
-import { LoginRequest } from '../models/account/login-request';
-import { AuthResponse } from '../models/account/auth-response';
-import { RegisterRequest } from '../models/account/register-request';
-import { UserDetail } from '../models/account/user-detail';
-import { ChangePasswordRequest } from '../models/account/change-password-request';
-import { ResetPasswordRequest } from '../models/account/reset-password-request';
+import { LoginRequestDto } from '../models/account/login-request-dto';
+import { AuthResponseDto } from '../models/account/auth-response-dto';
+import { RegisterRequestDto } from '../models/account/register-request-dto';
+import { UserDetailDto } from '../models/account/user-detail-dto';
+import { ChangePasswordRequestDto } from '../models/account/change-password-request-dto';
+import { ResetPasswordRequestDto } from '../models/account/reset-password-request-dto';
+import { TfaSetupDto } from '../models/account/tfa-setup-dto';
+import { TfaDto } from '../models/account/tfa-dto';
+import { UpdateProfileDto } from '../models/account/update-profile-dto';
 
 @Injectable({
   providedIn: 'root',
@@ -22,9 +25,9 @@ export class AuthService {
 
   constructor(private http: HttpClient) {}
 
-  login(data: LoginRequest): Observable<AuthResponse> {
+  login(data: LoginRequestDto): Observable<AuthResponseDto> {
     return this.http
-      .post<AuthResponse>(`${this.apiUrl}/api/account/login`, data)
+      .post<AuthResponseDto>(`${this.apiUrl}/api/account/login`, data)
       .pipe(
         map((response) => {
           if (response.isSuccess) {           
@@ -35,32 +38,65 @@ export class AuthService {
       );
   }
 
-  register(data: RegisterRequest): Observable<AuthResponse> {
-    return this.http.post<AuthResponse>(`${this.apiUrl}/api/account/register`, data);
+  register(data: RegisterRequestDto): Observable<AuthResponseDto> {
+    return this.http.post<AuthResponseDto>(`${this.apiUrl}/api/account/register`, data);
   }
 
-  getDetail(): Observable<UserDetail> { 
-    return this.http.get<UserDetail>(`${this.apiUrl}/api/account/detail`);
+  updateProfile(data: UpdateProfileDto): Observable<AuthResponseDto> {
+    return this.http.post<AuthResponseDto>(`${this.apiUrl}/api/account/update-profile`, data);
   }
 
-  forgotPassword(email: string): Observable<AuthResponse> {
-    return this.http.post<AuthResponse>(`${this.apiUrl}/api/account/forgot-password`, { email });
+  getUserProfileDetail(): Observable<UserDetailDto> { 
+    return this.http.get<UserDetailDto>(`${this.apiUrl}/api/account/user-detail`);
   }
 
-  resetPassword(data: ResetPasswordRequest): Observable<AuthResponse> {
-    return this.http.post<AuthResponse>(`${this.apiUrl}/api/account/reset-password`, data);
+  forgotPassword(email: string): Observable<AuthResponseDto> {
+    return this.http.post<AuthResponseDto>(`${this.apiUrl}/api/account/forgot-password`, { email });
   }
 
-  changePassword(data: ChangePasswordRequest): Observable<AuthResponse> {
-    return this.http.post<AuthResponse>(`${this.apiUrl}/api/account/change-password`, data);
+  resetPassword(data: ResetPasswordRequestDto): Observable<AuthResponseDto> {
+    return this.http.post<AuthResponseDto>(`${this.apiUrl}/api/account/reset-password`, data);
   }
 
-  getAll(): Observable<UserDetail[]> {
-    return this.http.get<UserDetail[]>(`${this.apiUrl}/api/account`);
+  changePassword(data: ChangePasswordRequestDto): Observable<AuthResponseDto> {
+    return this.http.post<AuthResponseDto>(`${this.apiUrl}/api/account/change-password`, data);
   }
 
-  refreshToken(data: {email: string; token: string; refreshToken: string;}): Observable<AuthResponse> {
-    return this.http.post<AuthResponse>(`${this.apiUrl}/api/account/refresh-token`, data);
+  getAll(): Observable<UserDetailDto[]> {
+    return this.http.get<UserDetailDto[]>(`${this.apiUrl}/api/account`);
+  }
+
+  refreshToken(data: {email: string; token: string; refreshToken: string;}): Observable<AuthResponseDto> {
+    return this.http.post<AuthResponseDto>(`${this.apiUrl}/api/account/refresh-token`, data);
+  }
+
+  public getTfaSetup = (email: string) => {
+    return this.http.get<TfaSetupDto> (`${this.apiUrl}/api/account/tfa-setup?email=${email}`);
+  }
+  
+  public postTfaSetup = (data: TfaSetupDto) => {
+    return this.http.post<TfaSetupDto> (`${this.apiUrl}/api/account/tfa-setup`, data);
+  }
+  
+  public disableTfa = (email: string) => {
+    return this.http.delete<TfaSetupDto> (`${this.apiUrl}/api/account/tfa-setup?email=${email}`);
+  }
+
+  public loginTfa = (data: TfaDto) => {
+    return this.http.post<AuthResponseDto>(`${this.apiUrl}/api/account/login-tfa`, data)
+        .pipe(
+          map((response) => {
+            if (response.isSuccess) {      
+              const user = localStorage.getItem(this.userKey);
+              if (user != null && user){
+                const userDetail: AuthResponseDto = JSON.parse(user);     
+                userDetail.isTfaSuccess = true;
+                localStorage.setItem(this.userKey, JSON.stringify(userDetail));
+              }              
+            }
+            return response;
+          })
+        );
   }
 
   getUserDetail = () => {
@@ -78,9 +114,28 @@ export class AuthService {
   };
 
   isAuthenticated = (): boolean => {
-    const token = this.getToken();
-    if (!token) return false;
-    return true;
+
+    let isAuthenticated = false;
+
+    const user = localStorage.getItem(this.userKey);
+    if (!user) return isAuthenticated;
+
+    const userDetail: AuthResponseDto = JSON.parse(user);
+
+    if(!userDetail.isTfaEnabled)
+    {
+      if(userDetail.token)
+      {
+        isAuthenticated = true;
+      }
+    }
+    else{
+      if(userDetail.isTfaSuccess){
+        isAuthenticated = true;
+      }
+    }
+
+    return isAuthenticated;
   };
 
   updateAuthenticationStatus(value : boolean){
@@ -112,14 +167,14 @@ export class AuthService {
   getToken = (): string | null => {
     const user = localStorage.getItem(this.userKey);
     if (!user) return null;
-    const userDetail: AuthResponse = JSON.parse(user);
+    const userDetail: AuthResponseDto = JSON.parse(user);
     return userDetail.token;
   };
 
   getRefreshToken = (): string | null => {
     const user = localStorage.getItem(this.userKey);
     if (!user) return null;
-    const userDetail: AuthResponse = JSON.parse(user);
+    const userDetail: AuthResponseDto = JSON.parse(user);
     return userDetail.refreshToken;
   };
 }

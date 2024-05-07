@@ -14,6 +14,9 @@ import { GateExitComponent } from './gate-exit/gate-exit.component';
 import { SensorComponent } from './sensor/sensor.component';
 import { SensorListWithDetailsComponent } from './sensor-list-with-details/sensor-list-with-details.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { TfaSetupComponent } from './tfa-setup/tfa-setup.component';
+import { LoginTwoStepVerificationComponent } from './login-two-step-verification/login-two-step-verification.component';
+import { ViewProfileComponent } from './view-profile/view-profile.component';
 
 export const routes: Routes = [
       {
@@ -48,6 +51,19 @@ export const routes: Routes = [
         path: 'change-password',
         component: ChangePasswordComponent,
         canActivate: [authGuard],
+      },
+      {
+        path: 'tfa-setup',
+        component: TfaSetupComponent,
+        canActivate: [authGuard],
+      },
+      {
+        path: 'login-two-step',
+        component : LoginTwoStepVerificationComponent
+      },
+      {
+        path: 'view-profile',
+        component : ViewProfileComponent
       },
       {
         path: 'roles',

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { AbstractControl, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { ValidationError } from '../../models/account/validation-error';
+import { ValidationErrorDto } from '../../models/account/validation-error-dto';
 import { HttpErrorResponse } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { MessageService } from 'primeng/api';
@@ -21,7 +21,7 @@ export class RegisterComponent  implements OnInit {
   registerForm: FormGroup = this.formBuilder.group({});
   confirmPasswordHide: boolean = true;
   passwordHide: boolean = true;
-  errors!: ValidationError[];
+  errors!: ValidationErrorDto[];
   
   constructor(private authService : AuthService,
     private formBuilder : FormBuilder,

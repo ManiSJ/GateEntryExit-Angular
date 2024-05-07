@@ -25,6 +25,7 @@ body{
     background-color: white;    
     position: absolute;
     right: 5px;
+    z-index : 1;
 }
 
 .profile_logo_menu ul{

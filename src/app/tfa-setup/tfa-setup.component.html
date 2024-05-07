@@ -1,0 +1,76 @@
+<div class="container m-5">
+    <div class="row">       
+        <div class="col-md-6 mb-4">
+            <div class="card">
+                <div class="card-header">
+                    <h2>Two-Factor Authentication with Microsoft Authenticator - Setup</h2>
+                </div>
+                <div class="card-body">
+                    <div *ngIf="isLoading" class="spinner-border" role="status"></div>
+
+                    <div *ngIf="showError"  class="alert alert-danger" role="alert">
+                        {{errorMessage}}
+                    </div>
+                    
+                    <div *ngIf="!isLoading">
+                        <div *ngIf ="tfaEnabled">
+                            <p>Two-factor authentication has been enabled</p>
+                            <div class="box">
+                                <h2>Current settings</h2>
+                                <p>QR code:</p>
+                                <qrcode [qrdata]="qrInfo" [width]="256" [errorCorrectionLevel]="'M'"></qrcode>
+                                <p>Secret key:</p>
+                                <pre>{{authenticatorKey}}</pre>
+                                
+                                <button class="btn btn-info" (click)="disableTfa()">Disable Two-Factor Authentication</button>
+                            </div>
+                        </div>
+                    
+                        <div *ngIf ="!tfaEnabled">
+                            <p>Two-factor authentication has not been enabled</p>
+                            <div>
+                                <div class="box">
+                                    <h2>Step 1</h2>
+                                    <p>Using the Microsoft Authenticator app, you should scan the following QR code:</p>
+                                    <qrcode [qrdata]="qrInfo" [width]="256" [errorCorrectionLevel]="'M'"></qrcode>
+                                    <p>Alternatively, you may enter the following code to the Microsoft Authenticator app:</p>
+                                    <pre>{{authenticatorKey}}</pre>   
+                                </div>
+                                
+                                <div class="box">
+                                    <h2>Step 2</h2>
+                                    <div>
+                                        <form [formGroup]="tfaForm" (ngSubmit)="enableTfa(tfaForm.value)">
+                                            <div class="mb-3 row">
+                                                <label for="code" class="col-form-label col-sm-2">
+                                                Enter here the code provided by the Microsoft Authenticator app:
+                                                </label>
+                                                <div class="col-md-5">
+                                                    <input type="text" id="code" formControlName="code" class="form-control" />
+                                                </div>
+                                                <div class="col-md-5">
+                                                    <em *ngIf="validateControl('code') && hasError('code', 'required')">
+                                                    Code is required
+                                                    </em>
+                                                </div>
+                                            </div>
+                                            <div class="mb-3 row">
+                                                <div class="col-md-3">
+                                                    <button type="submit" class="btn btn-info" [disabled]="!tfaForm.valid">
+                                                    Enable Two-Factor Authentication
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>    
+                                </div>
+                            </div>        
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>        
+    </div>
+</div>
+

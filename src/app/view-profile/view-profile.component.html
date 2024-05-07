@@ -1,0 +1,31 @@
+<div class="container m-5">
+    <div class="row">       
+        <div class="col-md-6 mb-4">
+            <div class="card">
+                <div class="card-header">
+                    <h2>Profile details</h2>
+                </div>
+                <div class="card-body">
+                    <div *ngFor="let error of errors">
+                        <div class="text-xs p-2">{{error.description}}</div>
+                    </div>
+                    <form [formGroup]="updateProfileForm">
+                        <div class="mb-3">      
+                            <label class="form-label">Full name</label>              
+                            <input type="text" placeholder="Fullname" class="form-control" formControlName="fullName"/>
+                        </div>     
+                        <div class="mb-3">       
+                            <label class="form-label">Email</label>                           
+                            <input type="email" placeholder="Email" class="form-control" formControlName="email"/>
+                        </div>                          
+                        <div class="col-md-1">
+                            <button class="btn btn-primary" type="submit" (click)="updateProfile()" [disabled]="updateProfileForm.invalid">
+                              Submit
+                              </button>    
+                          </div> 
+                    </form>
+                </div>
+            </div>
+        </div>        
+    </div>
+</div>

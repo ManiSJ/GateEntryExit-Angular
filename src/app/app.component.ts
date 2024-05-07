@@ -56,6 +56,8 @@ export class AppComponent implements OnInit{
         if(this.isLoggedIn == true){
           this.getUserFirstCharacter();
         }
+
+        console.log('isLoggedIn', this.isLoggedIn);
     }
 
     getUserFirstCharacter(){

@@ -38,10 +38,15 @@ export class LoginComponent implements OnInit{
   login() {
     this.authService.login(this.loginForm.value).subscribe({
       next: (response) => {
-        if (response.isSuccess) {                  
-          this.authService.updateAuthenticationStatus(true); 
-          this.router.navigate(['/dashboard']);
-          this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Log in success' });
+        if (response.isSuccess) {    
+          if(response.isTfaEnabled){
+              this.router.navigate(['/login-two-step']);
+            }    
+            else{
+              this.authService.updateAuthenticationStatus(true); 
+              this.router.navigate(['/dashboard']);
+              this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Log in success' });
+            }                  
         }
       },
       error: (error) => {       
