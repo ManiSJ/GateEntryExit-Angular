@@ -6,10 +6,10 @@
         <div class="col-md-12">
             <form [formGroup]="loginForm">
                 <div class="mb-3">                    
-                    <input type="email" placeholder="Email" class="form-control" formControlName="email"/>
+                    <input type="email" id="email" placeholder="Email" class="form-control" formControlName="email"/>
                 </div>        
                 <div class="mb-3">
-                    <input type="password" placeholder="Password" class="form-control" formControlName="password" />
+                    <input type="password" id="password" placeholder="Password" class="form-control" formControlName="password" />
                 </div>                
                 <div class="col-md-1 float-end">
                     <button class="btn btn-primary" type="submit" (click)="login()" [disabled]="loginForm.invalid">
