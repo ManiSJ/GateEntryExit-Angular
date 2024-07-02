@@ -1,6 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { GateExitComponent } from './gate-exit.component';
+import { NgxsModule } from '@ngxs/store';
+import { MessageService } from 'primeng/api';
 
 describe('GateExitComponent', () => {
   let component: GateExitComponent;
@@ -8,7 +10,10 @@ describe('GateExitComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [GateExitComponent]
+      imports: [GateExitComponent,
+        NgxsModule.forRoot()
+      ],
+      providers: [{ provide: MessageService }]
     })
     .compileComponents();
     

@@ -1,6 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { SensorComponent } from './sensor.component';
+import { MessageService } from 'primeng/api';
+import { NgxsModule } from '@ngxs/store';
 
 describe('SensorComponent', () => {
   let component: SensorComponent;
@@ -8,7 +10,10 @@ describe('SensorComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [SensorComponent]
+      imports: [SensorComponent,
+        NgxsModule.forRoot()
+      ],
+      providers: [{ provide: MessageService }]
     })
     .compileComponents();
     

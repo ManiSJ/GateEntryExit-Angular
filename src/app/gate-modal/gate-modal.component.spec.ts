@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { GateModalComponent } from './gate-modal.component';
+import { NgxsModule } from '@ngxs/store';
 
 describe('GateModalComponent', () => {
   let component: GateModalComponent;
@@ -8,7 +9,9 @@ describe('GateModalComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [GateModalComponent]
+      imports: [GateModalComponent,
+        NgxsModule.forRoot()
+      ]
     })
     .compileComponents();
     

@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { TfaSetupComponent } from './tfa-setup.component';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 describe('TfaSetupComponent', () => {
   let component: TfaSetupComponent;
@@ -8,7 +9,9 @@ describe('TfaSetupComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [TfaSetupComponent]
+      imports: [TfaSetupComponent,
+        HttpClientTestingModule,
+      ]
     })
     .compileComponents();
     

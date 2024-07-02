@@ -1,6 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ViewProfileComponent } from './view-profile.component';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { MessageService } from 'primeng/api';
 
 describe('ViewProfileComponent', () => {
   let component: ViewProfileComponent;
@@ -8,7 +10,11 @@ describe('ViewProfileComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ViewProfileComponent]
+      imports: [ViewProfileComponent,
+        HttpClientTestingModule,
+      ]
+      ,
+      providers : [MessageService]
     })
     .compileComponents();
     

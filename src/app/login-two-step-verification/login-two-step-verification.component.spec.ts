@@ -1,6 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { LoginTwoStepVerificationComponent } from './login-two-step-verification.component';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { MessageService } from 'primeng/api';
 
 describe('LoginTwoStepVerificationComponent', () => {
   let component: LoginTwoStepVerificationComponent;
@@ -8,7 +10,10 @@ describe('LoginTwoStepVerificationComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [LoginTwoStepVerificationComponent]
+      imports: [LoginTwoStepVerificationComponent,
+        HttpClientTestingModule,
+      ],
+      providers : [MessageService]
     })
     .compileComponents();
     
