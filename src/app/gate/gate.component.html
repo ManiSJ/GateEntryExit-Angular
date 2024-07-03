@@ -10,7 +10,7 @@
             
                     <form [formGroup]="gateFormGroup" (ngSubmit)="createOrEditGate()">
                         <div class="input-group mb-3">
-                            <input type="text" placeholder="Enter gate name" class="form-control" formControlName="name" />
+                            <input aria-label="name" role="textbox" type="text" placeholder="Enter gate name" id="name" name="name" class="form-control" formControlName="name" />
                             <div class="input-group-append">
                                 <button class="btn btn-primary" [disabled]="gateFormGroup.invalid">
                                     Submit
