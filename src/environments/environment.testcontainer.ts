@@ -1,6 +1,6 @@
 export const environment = {
     production: false,
-    apiUrl: 'http://localhost:5058',
+    apiUrl: 'http://gate-entry-exit-web-api-container:5000',
     baseUrl : 'http://localhost:4200'
   };
   

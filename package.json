@@ -5,6 +5,7 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
+    "build-testcontainer": "ng build --configuration=testcontainer",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
   },
@@ -20,6 +21,7 @@
     "@angular/router": "^17.3.0",
     "@microsoft/signalr": "^8.0.7",
     "@ngxs/store": "^3.8.2",
+    "@playwright/test": "^1.55.0",
     "@types/jwt-decode": "^3.1.0",
     "angularx-qrcode": "^17.0.0",
     "ngx-bootstrap": "^12.0.0",
@@ -38,6 +40,7 @@
     "@testing-library/jest-dom": "^6.4.6",
     "@testing-library/user-event": "^14.5.2",
     "@types/jasmine": "~5.1.0",
+    "@types/node": "^24.3.1",
     "jasmine-core": "~5.1.0",
     "karma": "~6.4.0",
     "karma-chrome-launcher": "~3.2.0",
