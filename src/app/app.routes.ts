@@ -76,11 +76,13 @@ export const routes: Routes = [
       {
         path: 'gates',
         component: GateComponent,
+        // outlet : 'left',
         canActivate: [authGuard],
       },
       {
         path: 'gate-entries',
         component: GateEntryComponent,
+        // outlet : 'right',
         canActivate: [authGuard],
       },
       {
